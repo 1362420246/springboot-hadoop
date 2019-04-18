@@ -72,7 +72,14 @@ public class HBaseConfig{
                 TimeUnit.SECONDS,
                 workQueue,
                 Threads.newDaemonThreadFactory(toString() + "-shared"));
-        //创建连接
+        /**
+         * 创建连接
+         * Connection对象从ConnectionFactory中获取
+         * 从Connection实例中获得Table，Admin以及RegionLocator在AS-需要基础。
+         * 进程结束，关闭获取的Connection实例。确保Connection在退出之前清理实例。
+         * Connections是重量级对象但是线程安全，因此一个应用程序创建一个并保持实例。(单例)
+         * Table，Admin和RegionLocator实例是轻量级的。随时创建，然后在关闭它们后立即释放。
+         */
         Connection connection = ConnectionFactory.createConnection(configuration,tpe);
         return connection;
     }
