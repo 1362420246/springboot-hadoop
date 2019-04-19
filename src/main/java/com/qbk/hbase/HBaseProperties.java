@@ -1,4 +1,4 @@
-package com.qbk.config;
+package com.qbk.hbase;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

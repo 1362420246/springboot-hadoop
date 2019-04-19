@@ -157,7 +157,7 @@ public class HdfsTest {
     @Test
     public void delete() throws IOException {
         //是否递归删除
-        boolean delete = fileSystem.delete(new Path("/output/test"), true);
+        boolean delete = fileSystem.delete(new Path("/output"), true);
         System.out.println(delete);
     }
 

@@ -1,4 +1,4 @@
-package com.qbk.config;
+package com.qbk.hbase;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,13 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -324,12 +319,17 @@ public class HBaseUtil {
 
 
     /**
-     * 区间取值 TODO
+     * 区间取值 TODO  Scan
      * @param tableName
      * @param family
      * @param column
      * @param startRow
      * @param stopRow
+     *
+     * https://www.cnblogs.com/frankdeng/p/9310209.html
+     * https://blog.csdn.net/u014795084/article/details/80929644
+     * https://blog.csdn.net/u010775025/article/details/80773679
+     *
      */
     public List<String> getValueByStartStopRowKey(String tableName, String family, String column, String startRow, String stopRow) {
         Table table = null;

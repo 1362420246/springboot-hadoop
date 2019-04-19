@@ -1,18 +1,9 @@
 package com.qbk;
 
-import com.qbk.config.HBaseConfig;
-import com.qbk.config.HBaseUtil;
+import com.qbk.hbase.HBaseUtil;
 import lombok.extern.java.Log;
-import org.apache.commons.lang.StringUtils;
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -25,7 +16,7 @@ import java.util.Map;
 @Log
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SpringbootHadoopApplicationTests {
+public class HBaseTests {
 
 
 //    @Autowired
