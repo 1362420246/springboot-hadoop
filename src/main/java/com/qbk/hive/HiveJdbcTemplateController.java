@@ -1,5 +1,6 @@
 package com.qbk.hive;
 
+import com.qbk.util.ProcessUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,11 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 /**
  * 使用 JdbcTemplate 操作 Hive
@@ -22,7 +25,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/hive2")
+@RequestMapping("/hive")
 public class HiveJdbcTemplateController {
 
     @Autowired
@@ -33,6 +36,13 @@ public class HiveJdbcTemplateController {
     @Qualifier("hiveDruidDataSource")
     DataSource jdbcDataSource;
 
+    /**
+     * 执行 sqoop脚本
+     */
+    @RequestMapping("/sqoop")
+    public int sqoopTest() throws InterruptedException, TimeoutException, IOException {
+        return ProcessUtil.executeCommand("sh /opt/jar/sqoop.sh",10000000000L);
+    }
 
     /**
      * 列举当前Hive库中的所有数据表

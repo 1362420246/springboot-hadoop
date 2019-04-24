@@ -1,11 +1,11 @@
 hbase:
   config:
     #指定zk的地址，多个用“,”分割
-    hbase.zookeeper.quorum: 192.168.11.222:2181
+    hbase.zookeeper.quorum: 192.168.11.241:2181
     hbase.zookeeper.znode: /hbase
 
 hive:
-  url: jdbc:hive2://192.168.11.241:10000/hive
+  url: jdbc:hive2://192.168.11.241:10000/default
   driver-class-name: org.apache.hive.jdbc.HiveDriver
   type: com.alibaba.druid.pool.DruidDataSource
   user: root

@@ -359,5 +359,4 @@ public class HBaseUtil {
         }
         return rs;
     }
-
 }
