@@ -2,14 +2,19 @@ package com.qbk.hive;
 
 import com.qbk.util.ProcessUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.sqoop.Sqoop;
+import org.apache.sqoop.tool.SqoopTool;
+import org.apache.sqoop.util.OptionsFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.apache.hadoop.conf.Configuration;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.sql.DataSource;
+import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,6 +40,46 @@ public class HiveJdbcTemplateController {
     @Autowired
     @Qualifier("hiveDruidDataSource")
     DataSource jdbcDataSource;
+
+
+    /**
+     * TODO
+     * https://www.cnblogs.com/claren/p/7240735.html
+     * 执行 sqoop api  存在maven导入失败问题
+     * 可以自行打包 也可以指定jar包实际路径
+     */
+    @RequestMapping("/test")
+    public int sqoop() throws Exception {
+
+        String curClasspath = System.getProperty ("java.class.path");
+        curClasspath = curClasspath
+                + File.pathSeparator
+                + "/opt/sqoop-1.4.7/sqoop-1.4.7.jar"
+                + File.pathSeparator
+                + "/opt/jar/hadoop-common-2.6.0-cdh5.4.4.jar";
+        System.setProperty ("java.class.path", curClasspath);
+
+        String[] args = new String[]{
+                "--connect","jdbc:mysql://192.168.11.233:3306/db03?useSSL=false&serverTimezone=GMT%2B8",
+                "--driver","com.mysql.jdbc.Driver",
+                "--username","root",
+                "--password","123456" ,
+                "--table","tab_user",
+                "--export-dir","/user/hive/warehouse/tab_user/part-m-00000",
+                "--input-fields-terminated-by","'\\0001'",
+                "--input-lines-terminated-by","'\\n'",
+                "--hadoop-mapred-home","/opt/hadoop-3.1.2"
+        };
+        String[] expandArguments = OptionsFileUtil.expandArguments(args);
+        SqoopTool tool = SqoopTool.getTool("export");
+        Configuration conf = new Configuration();
+        //设置HDFS服务地址
+        conf.set("fs.default.name", "hdfs://192.168.11.241:9000");
+        Configuration loadPlugins = SqoopTool.loadPlugins(conf);
+        Sqoop sqoop = new Sqoop((com.cloudera.sqoop.tool.SqoopTool) tool ,loadPlugins);
+        int res = Sqoop.runSqoop(sqoop, expandArguments);
+        return res ;
+    }
 
     /**
      * 执行 sqoop脚本

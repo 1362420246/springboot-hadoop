@@ -132,7 +132,7 @@
 		</dependency>-->
 
 
-		<!--<dependency>
+		<dependency>
 			<groupId>org.apache.sqoop</groupId>
 			<artifactId>sqoop</artifactId>
 			<version>1.4.7.1</version>
@@ -154,7 +154,7 @@
 			<groupId>org.apache.avro</groupId>
 			<artifactId>avro</artifactId>
 			<version>1.8.1</version>
-		</dependency>-->
+		</dependency>
 
 	</dependencies>
 
